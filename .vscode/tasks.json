@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Configure (CMake)",
+      "type": "shell",
+      "command": "cmake -G Ninja -B build -DPICO_BOARD=pico2 -DPICO_SDK_PATH=${env:PICO_SDK_PATH} .",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "cmake --build build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"],
+      "dependsOn": "Configure (CMake)"
+    },
+    {
+      "label": "Flash (copy UF2 to Pico) - RUN ON HOST",
+      "type": "shell",
+      "command": "bash scripts/flash-linux.sh build/src/pico2_blink.uf2",
+      "group": "test",
+      "dependsOn": "Build",
+      "problemMatcher": [],
+      "detail": "IMPORTANT: run this from a HOST terminal (outside the dev container), not the container terminal. On Windows, use scripts/flash-windows.ps1 instead."
+    },
+    {
+      "label": "Clean",
+      "type": "shell",
+      "command": "rm -rf build",
+      "problemMatcher": []
+    }
+  ]
+}

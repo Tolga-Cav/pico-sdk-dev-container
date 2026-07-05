@@ -1,0 +1,39 @@
+{
+  "name": "Pico 2 (RP2350) Dev Environment",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+
+  // --- USB / serial passthrough ---
+  // "privileged" + mounting /dev is the simplest cross-platform way to let the
+  // container see USB serial devices (e.g. /dev/ttyACM0) once the host has
+  // exposed them (see README.md for the Linux and Windows-specific host setup).
+  "runArgs": [
+    "--privileged",
+    "-v", "/dev:/dev"
+  ],
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.cmake-tools",
+        "marus25.cortex-debug",
+        "ms-vscode.vscode-serial-monitor",
+        "raspberry-pi.raspberry-pi-pico"
+      ],
+      "settings": {
+        "cmake.configureOnOpen": true,
+        "cmake.generator": "Ninja",
+        "cmake.configureArgs": [
+          "-DPICO_BOARD=pico2",
+          "-DPICO_SDK_PATH=${env:PICO_SDK_PATH}"
+        ]
+      }
+    }
+  },
+
+  "remoteUser": "vscode",
+  "postCreateCommand": "echo 'export PICO_SDK_PATH=/opt/pico-sdk' >> ~/.bashrc"
+}
