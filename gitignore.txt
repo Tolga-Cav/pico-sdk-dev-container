@@ -1,0 +1,7 @@
+# Either put this in a .gitignore file or if specific to a single users workflow put the same patterns in .git/info/exclude
+.devcontainer/
+.vscode/
+scripts/
+build/
+
+
